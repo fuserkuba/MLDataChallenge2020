@@ -1,0 +1,144 @@
+{
+    "artifact": {
+        "name": "cdap-data-pipeline",
+        "version": "6.2.3",
+        "scope": "SYSTEM"
+    },
+    "description": "Data Pipeline Application",
+    "name": "LoadTrainDataset",
+    "config": {
+        "resources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "driverResources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "connections": [
+            {
+                "from": "GCSFile",
+                "to": "Wrangler"
+            },
+            {
+                "from": "Wrangler",
+                "to": "BigQuery"
+            }
+        ],
+        "comments": [],
+        "postActions": [],
+        "properties": {},
+        "processTimingEnabled": true,
+        "stageLoggingEnabled": true,
+        "stages": [
+            {
+                "name": "GCSFile",
+                "plugin": {
+                    "name": "GCSFile",
+                    "type": "batchsource",
+                    "label": "GCSFile",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.15.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "mldatachallenge2020",
+                        "format": "text",
+                        "skipHeader": "false",
+                        "serviceFilePath": "auto-detect",
+                        "filenameOnly": "false",
+                        "recursive": "false",
+                        "encrypted": "false",
+                        "copyHeader": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}",
+                        "path": "gs://mldatachallenge2020-122953185532/raw_files/train_dataset.jl",
+                        "referenceName": "mldatachallenge2020-122953185532.train_dataset.jl"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "id": "GCSFile"
+            },
+            {
+                "name": "Wrangler",
+                "plugin": {
+                    "name": "Wrangler",
+                    "type": "transform",
+                    "label": "Wrangler",
+                    "artifact": {
+                        "name": "wrangler-transform",
+                        "version": "4.2.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "field": "*",
+                        "precondition": "false",
+                        "threshold": "1",
+                        "workspaceId": "b9a92fd8-fb26-4ca1-9428-34cdce78c92b",
+                        "directives": "parse-as-json :body 1\nrename body_item_bought item_bought\nrename body_user_history user_history\nset-type :item_bought integer",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"user_history\",\"type\":[{\"type\":\"array\",\"items\":[{\"type\":\"record\",\"name\":\"name_921444bdeb22474b9635d7d53bd1ea31\",\"fields\":[{\"name\":\"event_info\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_timestamp\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_type\",\"type\":[\"string\",\"null\"]}]},\"null\"]},\"null\"]},{\"name\":\"item_bought\",\"type\":[\"int\",\"null\"]}]}"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"user_history\",\"type\":[{\"type\":\"array\",\"items\":[{\"type\":\"record\",\"name\":\"name_921444bdeb22474b9635d7d53bd1ea31\",\"fields\":[{\"name\":\"event_info\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_timestamp\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_type\",\"type\":[\"string\",\"null\"]}]},\"null\"]},\"null\"]},{\"name\":\"item_bought\",\"type\":[\"int\",\"null\"]}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "GCSFile",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "id": "Wrangler"
+            },
+            {
+                "name": "BigQuery",
+                "plugin": {
+                    "name": "BigQueryTable",
+                    "type": "batchsink",
+                    "label": "BigQuery",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.15.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "auto-detect",
+                        "serviceFilePath": "auto-detect",
+                        "operation": "insert",
+                        "truncateTable": "false",
+                        "allowSchemaRelaxation": "false",
+                        "location": "US",
+                        "createPartitionedTable": "false",
+                        "partitioningType": "TIME",
+                        "partitionFilterRequired": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"item_bought\",\"type\":[\"int\",\"null\"]},{\"name\":\"user_history\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"name_c956618358054eaaa2b4deabc499f53d\",\"fields\":[{\"name\":\"event_info\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"event_type\",\"type\":\"string\"}]}}}]}",
+                        "referenceName": "TrainDataset",
+                        "table": "train_dataset",
+                        "dataset": "input_data"
+                    }
+                },
+                "outputSchema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"item_bought\",\"type\":[\"int\",\"null\"]},{\"name\":\"user_history\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"name_c956618358054eaaa2b4deabc499f53d\",\"fields\":[{\"name\":\"event_info\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"event_type\",\"type\":\"string\"}]}}}]}",
+                "inputSchema": [
+                    {
+                        "name": "Wrangler",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"item_bought\",\"type\":[\"int\",\"null\"]},{\"name\":\"user_history\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"name_c956618358054eaaa2b4deabc499f53d\",\"fields\":[{\"name\":\"event_info\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"event_type\",\"type\":\"string\"}]}}}]}"
+                    }
+                ],
+                "id": "BigQuery"
+            }
+        ],
+        "schedule": "0 * * * *",
+        "engine": "spark",
+        "numOfRecordsPreview": 100,
+        "description": "Data Pipeline Application",
+        "maxConcurrentRuns": 1
+    }
+}

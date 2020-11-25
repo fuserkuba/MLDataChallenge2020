@@ -1,0 +1,149 @@
+{
+    "artifact": {
+        "name": "cdap-data-pipeline",
+        "version": "6.2.3",
+        "scope": "SYSTEM"
+    },
+    "description": "",
+    "name": "LoadTestDataset",
+    "config": {
+        "resources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "driverResources": {
+            "memoryMB": 2048,
+            "virtualCores": 1
+        },
+        "connections": [
+            {
+                "from": "GCSFile",
+                "to": "Wrangler"
+            },
+            {
+                "from": "Wrangler",
+                "to": "BigQuery"
+            }
+        ],
+        "comments": [],
+        "postActions": [],
+        "properties": {},
+        "processTimingEnabled": true,
+        "stageLoggingEnabled": true,
+        "stages": [
+            {
+                "name": "GCSFile",
+                "plugin": {
+                    "name": "GCSFile",
+                    "type": "batchsource",
+                    "label": "GCSFile",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.15.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "mldatachallenge2020",
+                        "format": "text",
+                        "skipHeader": "false",
+                        "serviceFilePath": "auto-detect",
+                        "filenameOnly": "false",
+                        "recursive": "false",
+                        "encrypted": "false",
+                        "copyHeader": "false",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}",
+                        "path": "gs://mldatachallenge2020-122953185532/raw_files/test_dataset.jl",
+                        "referenceName": "mldatachallenge2020-122953185532.test_dataset.jl"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "id": "GCSFile"
+            },
+            {
+                "name": "Wrangler",
+                "plugin": {
+                    "name": "Wrangler",
+                    "type": "transform",
+                    "label": "Wrangler",
+                    "artifact": {
+                        "name": "wrangler-transform",
+                        "version": "4.2.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "field": "*",
+                        "precondition": "false",
+                        "threshold": "1",
+                        "workspaceId": "9a95c68d-a213-4b21-ac4f-3fbf555dadb6",
+                        "directives": "parse-as-json :body 4\nrename body_user_history user_history",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"user_history\",\"type\":[{\"type\":\"array\",\"items\":[{\"type\":\"record\",\"name\":\"name_7942ce16cc5f4b2db8d0236208a5ab64\",\"fields\":[{\"name\":\"event_info\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_timestamp\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_type\",\"type\":[\"string\",\"null\"]}]},\"null\"]},\"null\"]}]}"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"user_history\",\"type\":[{\"type\":\"array\",\"items\":[{\"type\":\"record\",\"name\":\"name_7942ce16cc5f4b2db8d0236208a5ab64\",\"fields\":[{\"name\":\"event_info\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_timestamp\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_type\",\"type\":[\"string\",\"null\"]}]},\"null\"]},\"null\"]}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "GCSFile",
+                        "schema": "{\"type\":\"record\",\"name\":\"text\",\"fields\":[{\"name\":\"body\",\"type\":\"string\"}]}"
+                    }
+                ],
+                "id": "Wrangler"
+            },
+            {
+                "name": "BigQuery",
+                "plugin": {
+                    "name": "BigQueryTable",
+                    "type": "batchsink",
+                    "label": "BigQuery",
+                    "artifact": {
+                        "name": "google-cloud",
+                        "version": "0.15.3",
+                        "scope": "SYSTEM"
+                    },
+                    "properties": {
+                        "project": "auto-detect",
+                        "serviceFilePath": "auto-detect",
+                        "operation": "insert",
+                        "truncateTable": "false",
+                        "allowSchemaRelaxation": "false",
+                        "location": "US",
+                        "createPartitionedTable": "false",
+                        "partitioningType": "TIME",
+                        "partitionFilterRequired": "false",
+                        "referenceName": "ImportTest",
+                        "datasetProject": "mldatachallenge2020",
+                        "dataset": "input_data",
+                        "table": "test_dataset",
+                        "schema": "{\"name\":\"etlSchemaBody\",\"type\":\"record\",\"fields\":[{\"name\":\"user_history\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"name_a8b86e00b73e498f8515266abb9b9d4f\",\"fields\":[{\"name\":\"event_info\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"event_type\",\"type\":\"string\"}]}}}]}"
+                    }
+                },
+                "outputSchema": [
+                    {
+                        "name": "etlSchemaBody",
+                        "schema": "{\"name\":\"etlSchemaBody\",\"type\":\"record\",\"fields\":[{\"name\":\"user_history\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"name_a8b86e00b73e498f8515266abb9b9d4f\",\"fields\":[{\"name\":\"event_info\",\"type\":\"string\"},{\"name\":\"event_timestamp\",\"type\":\"string\"},{\"name\":\"event_type\",\"type\":\"string\"}]}}}]}"
+                    }
+                ],
+                "inputSchema": [
+                    {
+                        "name": "Wrangler",
+                        "schema": "{\"type\":\"record\",\"name\":\"etlSchemaBody\",\"fields\":[{\"name\":\"user_history\",\"type\":[{\"type\":\"array\",\"items\":[{\"type\":\"record\",\"name\":\"name_7942ce16cc5f4b2db8d0236208a5ab64\",\"fields\":[{\"name\":\"event_info\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_timestamp\",\"type\":[\"string\",\"null\"]},{\"name\":\"event_type\",\"type\":[\"string\",\"null\"]}]},\"null\"]},\"null\"]}]}"
+                    }
+                ],
+                "id": "BigQuery"
+            }
+        ],
+        "schedule": "0 * * * *",
+        "engine": "spark",
+        "numOfRecordsPreview": 100,
+        "maxConcurrentRuns": 1
+    }
+}

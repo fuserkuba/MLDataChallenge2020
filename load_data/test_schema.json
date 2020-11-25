@@ -1,0 +1,35 @@
+[
+    {
+        "name": "etlSchemaBody",
+        "schema": {
+            "name": "etlSchemaBody",
+            "type": "record",
+            "fields": [
+                {
+                    "name": "user_history",
+                    "type": {
+                        "type": "array",
+                        "items": {
+                            "type": "record",
+                            "name": "name_a8b86e00b73e498f8515266abb9b9d4f",
+                            "fields": [
+                                {
+                                    "name": "event_info",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "event_timestamp",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "event_type",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "name": "etlSchemaBody",
+        "schema": {
+            "type": "record",
+            "name": "etlSchemaBody",
+            "fields": [
+                {
+                    "name": "item_bought",
+                    "type": [
+                        "int",
+                        "null"
+                    ]
+                },
+                {
+                    "name": "user_history",
+                    "type": {
+                        "type": "array",
+                        "items": {
+                            "type": "record",
+                            "name": "name_c956618358054eaaa2b4deabc499f53d",
+                            "fields": [
+                                {
+                                    "name": "event_info",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "event_timestamp",
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "event_type",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+]
