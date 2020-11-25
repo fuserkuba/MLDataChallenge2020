@@ -1,0 +1,1007 @@
+{
+  "type": "flow",
+  "kind": "artifact",
+  "metadata": {
+    "trifactaVersion": "7.8.0+94.20201118131723.d38dcee",
+    "exportedAt": "2020-11-25T17:45:20.630Z",
+    "exportedBy": 184822,
+    "uuid": "fcd99960-2f45-11eb-b558-b5a48a331158",
+    "comment": "",
+    "primaryFlowIds": [
+      382614
+    ],
+    "edition": "Dataprep",
+    "lastMigration": "20201009121100"
+  },
+  "data": {
+    "artifacts": [],
+    "connections": [],
+    "flows": [
+      {
+        "settings": {
+          "optimize": "default"
+        },
+        "id": 382614,
+        "name": "Load_Wrangle_TestDataset",
+        "description": "",
+        "defaultOutputDir": null,
+        "fromExampleFlowHash": null,
+        "fromExampleFlowName": null,
+        "flownodes": [
+          {
+            "id": 1933571,
+            "scriptId": 1782702,
+            "flowNodeId": null,
+            "wrangled": false,
+            "referenceId": null
+          },
+          {
+            "id": 1933572,
+            "scriptId": 1782703,
+            "flowNodeId": null,
+            "wrangled": true,
+            "referenceId": null
+          }
+        ],
+        "notes": [],
+        "flowgraphvertices": [
+          {
+            "id": 510553,
+            "objectType": "flownode",
+            "objectId": 1933571,
+            "x": 4,
+            "y": 65
+          },
+          {
+            "id": 510554,
+            "objectType": "flownode",
+            "objectId": 1933572,
+            "x": 244,
+            "y": 65
+          },
+          {
+            "id": 510555,
+            "objectType": "outputobject",
+            "objectId": 357441,
+            "x": 484,
+            "y": 65
+          }
+        ],
+        "flowedges": [
+          {
+            "id": 1691948,
+            "inFlowNodeId": 1933571,
+            "inPortId": null,
+            "outFlowNodeId": 1933572,
+            "outPortId": null
+          }
+        ],
+        "references": [],
+        "flowrunparameteroverrides": [],
+        "runparameters": [],
+        "recipes": [
+          {
+            "id": 1782702,
+            "name": "test_dataset.jl",
+            "description": null,
+            "active": true,
+            "nextPortId": 1,
+            "steps": [
+              {
+                "columnMetadata": null,
+                "task": {
+                  "annotations": {
+                    "hidden": true
+                  },
+                  "kind": "task",
+                  "type": "Load",
+                  "parameters": {
+                    "format": {
+                      "annotations": {},
+                      "kind": "func",
+                      "type": "FormatBlob",
+                      "parameters": {}
+                    },
+                    "location": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "id://866845"
+                    },
+                    "enableLineage": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": true
+                    },
+                    "as": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "column1"
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": "original_datasource_866845"
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363367,
+                "hash": "aca00306547ea9e19fa635f10829c4d84511bda9",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": null,
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "column1": {
+                        "type": [
+                          "Map"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Map"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "SplitRows",
+                  "parameters": {
+                    "on": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "\n"
+                    },
+                    "col": {
+                      "kind": "column",
+                      "type": "Column",
+                      "value": "column1",
+                      "relation": null
+                    },
+                    "quote": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "\""
+                    },
+                    "quoteEscapeChar": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "\\"
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363366,
+                "hash": "96299301078923e784e9c75ab07beca6a3531073",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": null,
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "user_history": {
+                        "type": [
+                          "Array"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Array"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Unnest",
+                  "parameters": {
+                    "pluck": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": false
+                    },
+                    "markLineage": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": false
+                    },
+                    "col": {
+                      "kind": "column",
+                      "type": "Column",
+                      "value": "column1",
+                      "relation": null
+                    },
+                    "keys": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "user_history"
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363368,
+                "hash": "90db2245f96a746585582488a46edcb07b2bd44d",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": null,
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {}
+                  },
+                  "kind": "task",
+                  "type": "Drop",
+                  "parameters": {
+                    "action": {
+                      "kind": "enumerable",
+                      "type": "Enumerable",
+                      "value": "Drop"
+                    },
+                    "col": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "column",
+                          "type": "Column",
+                          "value": "column1",
+                          "relation": null
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363369,
+                "hash": "6c526705a83dfcca2b7f0e8733d3914b142cfb57",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              }
+            ],
+            "dqScriptRules": []
+          },
+          {
+            "id": 1782703,
+            "name": "test_dataset",
+            "description": null,
+            "active": true,
+            "nextPortId": 1,
+            "steps": [
+              {
+                "columnMetadata": {
+                  "user_history": {
+                    "id": "mxpvay"
+                  },
+                  "TRIFACTA__FILE_LINEAGE_INFO": {
+                    "id": "576qf2t"
+                  }
+                },
+                "task": {
+                  "annotations": {
+                    "hidden": true
+                  },
+                  "kind": "task",
+                  "type": "Load",
+                  "parameters": {
+                    "format": {
+                      "annotations": {},
+                      "kind": "func",
+                      "type": "FormatBlob",
+                      "parameters": {}
+                    },
+                    "location": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "portId://null"
+                    },
+                    "enableLineage": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": true
+                    },
+                    "as": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "column1"
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": "original_datasource_866845"
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363372,
+                "hash": "ee2941f11e1b6811d99a12c566fc05b5c67caa4c",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {
+                  "arraylen_user_history": {
+                    "id": "-bc2hfh6"
+                  }
+                },
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "arraylen_user_history": {
+                        "type": [
+                          "Integer"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Float"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Derive",
+                  "parameters": {
+                    "type": {
+                      "kind": "bundle",
+                      "type": "Bundle",
+                      "value": "single"
+                    },
+                    "value": {
+                      "annotations": {},
+                      "kind": "func",
+                      "type": "ArrayLen",
+                      "parameters": {
+                        "col": {
+                          "kind": "column",
+                          "type": "Column",
+                          "value": "user_history",
+                          "relation": null
+                        }
+                      }
+                    },
+                    "as": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "arraylen_user_history"
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363394,
+                "hash": "46bb6070047c309f45375a160e57f83259bb3d27",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {},
+                "task": {
+                  "annotations": {},
+                  "kind": "task",
+                  "type": "Rename",
+                  "parameters": {
+                    "type": {
+                      "kind": "bundle",
+                      "type": "Bundle",
+                      "value": "manual"
+                    },
+                    "mapping": {
+                      "kind": "matrix",
+                      "type": "Matrix",
+                      "value": [
+                        {
+                          "kind": "array",
+                          "type": "Array",
+                          "value": [
+                            {
+                              "kind": "column",
+                              "type": "Column",
+                              "value": "arraylen_user_history",
+                              "relation": null
+                            },
+                            {
+                              "kind": "constant",
+                              "type": "String",
+                              "value": "event_numbers"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363395,
+                "hash": "8692bb53b65f763e27d677ef105b291d39b674c6",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {},
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "event_numbers": {
+                        "type": [
+                          "Integer"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Float"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Set",
+                  "parameters": {
+                    "col": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "column",
+                          "type": "Column",
+                          "value": "event_numbers",
+                          "relation": null
+                        }
+                      ]
+                    },
+                    "value": {
+                      "annotations": {},
+                      "kind": "func",
+                      "type": "IfMissing",
+                      "parameters": {
+                        "col": {
+                          "kind": "variable",
+                          "type": "Variable",
+                          "value": "col"
+                        },
+                        "true_expression": {
+                          "kind": "constant",
+                          "type": "Integer",
+                          "value": 0
+                        }
+                      }
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10363402,
+                "hash": "162dbfc86eaeacee1ee3654d9e84db1c6174de91",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {
+                  "example_number": {
+                    "id": "d46z4u"
+                  }
+                },
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "example_number": {
+                        "type": [
+                          "Integer"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Float"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Derive",
+                  "parameters": {
+                    "type": {
+                      "kind": "bundle",
+                      "type": "Bundle",
+                      "value": "single"
+                    },
+                    "value": {
+                      "annotations": {},
+                      "kind": "func",
+                      "type": "SourceRowNumber",
+                      "parameters": {}
+                    },
+                    "as": {
+                      "kind": "constant",
+                      "type": "String",
+                      "value": "example_number"
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10365401,
+                "hash": "0c6daffdfd17a59cd95120353d788d17ce6109cf",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {},
+                "task": {
+                  "annotations": {},
+                  "kind": "task",
+                  "type": "Rename",
+                  "parameters": {
+                    "type": {
+                      "kind": "bundle",
+                      "type": "Bundle",
+                      "value": "manual"
+                    },
+                    "mapping": {
+                      "kind": "matrix",
+                      "type": "Matrix",
+                      "value": [
+                        {
+                          "kind": "array",
+                          "type": "Array",
+                          "value": [
+                            {
+                              "kind": "column",
+                              "type": "Column",
+                              "value": "event_numbers",
+                              "relation": null
+                            },
+                            {
+                              "kind": "constant",
+                              "type": "String",
+                              "value": "events_qt"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10397838,
+                "hash": "f54cd12f411a24974d74b9641e97fd476cb3abfa",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {},
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "user_history": {
+                        "type": [
+                          "Map"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Map"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Flatten",
+                  "parameters": {
+                    "col": {
+                      "kind": "column",
+                      "type": "Column",
+                      "value": "user_history",
+                      "relation": null
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10416901,
+                "hash": "d94db4765190f11091bad05d04cca8ee1957cdd0",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              },
+              {
+                "columnMetadata": {
+                  "event_info": {
+                    "id": "-50igfdh"
+                  },
+                  "event_timestamp": {
+                    "id": "-4pujej1"
+                  },
+                  "event_type": {
+                    "id": "-50i7ov3"
+                  }
+                },
+                "task": {
+                  "annotations": {
+                    "outputColumnAnnotations": {
+                      "event_info": {
+                        "type": [
+                          "String"
+                        ],
+                        "_likely_types": [
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ],
+                          [
+                            "Map"
+                          ]
+                        ]
+                      },
+                      "event_timestamp": {
+                        "type": [
+                          "Datetime",
+                          "yy-mm-dd hh:mm:ss",
+                          "yyyy*mm*dd*HH:MM:SS.sssX"
+                        ],
+                        "_likely_types": [
+                          [
+                            "Datetime",
+                            "yy-mm-dd hh:mm:ss",
+                            "yyyy*mm*dd*HH:MM:SS.sssX"
+                          ],
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ]
+                        ]
+                      },
+                      "event_type": {
+                        "type": [
+                          "String"
+                        ],
+                        "_likely_types": [
+                          [
+                            "String"
+                          ],
+                          [
+                            "Integer"
+                          ],
+                          [
+                            "Phone"
+                          ],
+                          [
+                            "SSN"
+                          ],
+                          [
+                            "Map"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "kind": "task",
+                  "type": "Unnest",
+                  "parameters": {
+                    "pluck": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": false
+                    },
+                    "markLineage": {
+                      "kind": "constant",
+                      "type": "Bool",
+                      "value": false
+                    },
+                    "col": {
+                      "kind": "column",
+                      "type": "Column",
+                      "value": "user_history",
+                      "relation": null
+                    },
+                    "keys": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_info"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_timestamp"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_type"
+                        }
+                      ]
+                    },
+                    "as": {
+                      "kind": "array",
+                      "type": "Array",
+                      "value": [
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_info"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_timestamp"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "String",
+                          "value": "event_type"
+                        }
+                      ]
+                    }
+                  },
+                  "outputName": null
+                },
+                "tableData": null,
+                "portId": null,
+                "id": 10419755,
+                "hash": "bc9fb67c86abdfff90ec235002ea580982c473f6",
+                "pbemappingartifacts": [],
+                "targetmappingartifacts": [],
+                "dependencies": []
+              }
+            ],
+            "dqScriptRules": []
+          }
+        ],
+        "outputobjects": [
+          {
+            "id": 357441,
+            "execution": "dataflow",
+            "profiler": true,
+            "flowNodeId": 1933572,
+            "isAdhoc": true,
+            "publications": [
+              {
+                "path": [
+                  "mldatachallenge2020",
+                  "data"
+                ],
+                "parameters": {
+                  "externalTableLocation": null,
+                  "isDeltaTable": "false",
+                  "isExternalTable": "false"
+                },
+                "id": 391148,
+                "tableName": "test_dataset_numered",
+                "targetType": "bigquery",
+                "action": "dropAndLoad",
+                "connectionId": null,
+                "runParameters": []
+              }
+            ],
+            "writesettings": [],
+            "outputobjectdataflowoptions": [
+              {
+                "id": 4424805,
+                "key": "autoscalingAlgorithm",
+                "value": "THROUGHPUT_BASED"
+              },
+              {
+                "id": 4424810,
+                "key": "hostProjectId",
+                "value": ""
+              },
+              {
+                "id": 4424803,
+                "key": "machineType",
+                "value": "n1-standard-1"
+              },
+              {
+                "id": 4424808,
+                "key": "maxNumWorkers",
+                "value": "1000"
+              },
+              {
+                "id": 4424804,
+                "key": "network",
+                "value": ""
+              },
+              {
+                "id": 4424807,
+                "key": "numWorkers",
+                "value": "1"
+              },
+              {
+                "id": 4424801,
+                "key": "region",
+                "value": "us-central1"
+              },
+              {
+                "id": 4424806,
+                "key": "serviceAccount",
+                "value": ""
+              },
+              {
+                "id": 4424800,
+                "key": "subnetwork",
+                "value": ""
+              },
+              {
+                "id": 4424809,
+                "key": "usePublicIps",
+                "value": "true"
+              },
+              {
+                "id": 4424802,
+                "key": "zone",
+                "value": ""
+              }
+            ],
+            "outputobjectsparkoptions": []
+          }
+        ],
+        "datasources": [
+          {
+            "path": "/raw_files/test_dataset.jl",
+            "bucket": "mldatachallenge2020-122953185532",
+            "userinfo": null,
+            "type": "gs",
+            "host": null,
+            "isDynamicOrConverted": false,
+            "id": 866845,
+            "dynamicPath": null,
+            "cpProject": "mldatachallenge2020",
+            "connectionId": null,
+            "isSchematized": true,
+            "isDynamic": false,
+            "isConverted": false,
+            "disableTypeInference": false,
+            "hasStructuring": true,
+            "parsingScriptId": 1782702,
+            "storageLocation": {
+              "fullUri": "gs://mldatachallenge2020-122953185532/raw_files/test_dataset.jl",
+              "id": 11836410,
+              "path": "/raw_files/test_dataset.jl",
+              "size": 550425025,
+              "type": "gs",
+              "bucket": "mldatachallenge2020-122953185532",
+              "blobHost": null,
+              "container": null,
+              "hash": "576fc4f8b91494677cab268e42e8d3e3e666e623",
+              "host": null,
+              "userinfo": null
+            },
+            "runParameters": []
+          }
+        ],
+        "webhookflowtasks": []
+      }
+    ]
+  },
+  "hash": "5plJdwamPpWWPZTI1Og+K7QPEM8GbaqM"
+}
